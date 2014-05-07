@@ -8,6 +8,7 @@ public class Post {
     private String subject;
     private String message;
     private Date dateCreated;
+    private Integer threadId;
 
     public Integer getId() {
         return id;
@@ -47,5 +48,13 @@ public class Post {
 
     public void setDateCreated(Date dateCreated) {
         this.dateCreated = dateCreated;
+    }
+
+    public Integer getThreadId() {
+        return threadId;
+    }
+
+    public void setThreadId(Integer threadId) {
+        this.threadId = threadId;
     }
 }

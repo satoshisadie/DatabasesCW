@@ -4,11 +4,11 @@ import java.util.Date;
 
 public class Thread {
     private Integer id;
-    private Integer userId;
     private String subject;
     private Integer viewCount;
     private Date dateCreated;
     private Boolean active;
+    private Integer userId;
 
     public Integer getId() {
         return id;
@@ -16,14 +16,6 @@ public class Thread {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
     }
 
     public String getSubject() {
@@ -56,5 +48,13 @@ public class Thread {
 
     public void setActive(Boolean active) {
         this.active = active;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 }
