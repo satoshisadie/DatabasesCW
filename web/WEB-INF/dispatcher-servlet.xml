@@ -22,7 +22,15 @@
         <property name="password" value="${jdbc.password}"/>
     </bean>
 
-    <bean id="testDao" class="dao.TestDao">
+    <bean id="userDao" class="dao.JdbcUserDao">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="threadDao" class="dao.JdbcThreadDao">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="postDao" class="dao.JdbcPostDao">
         <property name="dataSource" ref="dataSource"/>
     </bean>
 </beans>
