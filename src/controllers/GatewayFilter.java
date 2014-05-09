@@ -38,6 +38,7 @@ public class GatewayFilter implements Filter {
             filterChain.doFilter(servletRequest, servletResponse);
             return;
         }
+        
         httpServletResponse.setStatus(HttpServletResponse.SC_FOUND);
         httpServletResponse.sendRedirect("authorization.html");
     }

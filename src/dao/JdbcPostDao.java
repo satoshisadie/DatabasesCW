@@ -1,6 +1,7 @@
 package dao;
 
 import beans.Post;
+import org.joda.time.DateTime;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
@@ -58,9 +59,10 @@ public class JdbcPostDao implements PostDao {
             post.setId(rs.getInt("id"));
             post.setSubject(rs.getString("subject"));
             post.setMessage(rs.getString("message"));
-            post.setDateCreated(rs.getDate("dateCreated"));
+            post.setDateCreated(new DateTime(rs.getDate("dateCreated")));
             post.setThreadId(rs.getInt("threadId"));
             post.setUserId(rs.getInt("userId"));
+            post.setRepliedTo(rs.getInt("repliedTo"));
             return post;
         }
     }

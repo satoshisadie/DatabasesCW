@@ -1,14 +1,15 @@
 package beans;
 
-import java.util.Date;
+import org.joda.time.DateTime;
 
 public class Post {
     private Integer id;
-    private Integer userId;
     private String subject;
     private String message;
-    private Date dateCreated;
+    private DateTime dateCreated;
+    private Integer userId;
     private Integer threadId;
+    private Integer repliedTo;
 
     public Integer getId() {
         return id;
@@ -16,14 +17,6 @@ public class Post {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
     }
 
     public String getSubject() {
@@ -42,12 +35,20 @@ public class Post {
         this.message = message;
     }
 
-    public Date getDateCreated() {
+    public DateTime getDateCreated() {
         return dateCreated;
     }
 
-    public void setDateCreated(Date dateCreated) {
+    public void setDateCreated(DateTime dateCreated) {
         this.dateCreated = dateCreated;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public Integer getThreadId() {
@@ -56,5 +57,13 @@ public class Post {
 
     public void setThreadId(Integer threadId) {
         this.threadId = threadId;
+    }
+
+    public Integer getRepliedTo() {
+        return repliedTo;
+    }
+
+    public void setRepliedTo(Integer repliedTo) {
+        this.repliedTo = repliedTo;
     }
 }

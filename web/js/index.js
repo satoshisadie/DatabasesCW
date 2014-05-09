@@ -1,14 +1,15 @@
 $(document).ready(function() {
     $(".followThread").each(function() {
         this.click = function() {
-            window.location = ""
+            var threadId = $(this).parent().children(".threadId").val();
+            window.location = "./followThread?threadId=" + threadId;
         };
     });
 
-    $(".openThread").each(function() {
+    $(".viewThread").each(function() {
         $(this).click(function() {
-            var id = $(this).parent().children(".id").val();
-            window.location = "./thread.html?id=" + id;
+            var threadId = $(this).parent().children(".threadId").val();
+            window.location = "./thread.html?id=" + threadId;
         });
     });
 });

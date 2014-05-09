@@ -1,12 +1,12 @@
 package beans;
 
-import java.util.Date;
+import org.joda.time.DateTime;
 
 public class Thread {
     private Integer id;
     private String subject;
     private Integer viewCount;
-    private Date dateCreated;
+    private DateTime dateCreated;
     private Boolean active;
     private Integer userId;
 
@@ -34,11 +34,11 @@ public class Thread {
         this.viewCount = viewCount;
     }
 
-    public Date getDateCreated() {
+    public DateTime getDateCreated() {
         return dateCreated;
     }
 
-    public void setDateCreated(Date dateCreated) {
+    public void setDateCreated(DateTime dateCreated) {
         this.dateCreated = dateCreated;
     }
 

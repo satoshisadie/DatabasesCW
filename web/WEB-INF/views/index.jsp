@@ -7,16 +7,18 @@
     <script src="<c:url value="/js/index.js"/>" type="text/javascript"></script>
 </head>
 <body>
+    <a href="${pageContext.request.contextPath}/newThread.html">Create new thread</a>
     <c:forEach items="${threads}" var="thread">
+        <c:set var="user" value="${userByThread.get(thread)}"/>
         <div class="thread">
-            <input type="hidden" id="id" value="${thread.id}">
+            <input type="hidden" class="threadId" value="${thread.id}">
             Thread subject ${thread.subject}<br/>
-            Created by <br/>
+            Created by ${user.login}<br/>
             Created date ${thread.dateCreated}<br/>
             View count ${thread.viewCount}<br/>
             Active ${thread.active}<br/><br/>
             <button class="followThread">Follow thread</button><br/>
-            <button class="openThread">Open thread</button><br/>
+            <button class="viewThread">View thread</button><br/>
         </div>
     </c:forEach>
 </body>

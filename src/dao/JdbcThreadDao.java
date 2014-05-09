@@ -1,6 +1,7 @@
 package dao;
 
 import beans.Thread;
+import org.joda.time.DateTime;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
@@ -19,6 +20,14 @@ public class JdbcThreadDao implements ThreadDao {
                        "FROM Thread";
 
         return jdbcTemplate.query(query, new ThreadRowMapper());
+    }
+
+    @Override
+    public void follow(int userId, int threadId) {
+        String query = "INSERT INTO ThreadFollower(UserId, ThreadId) " +
+                       "VALUES (?, ?)";
+        // TODO Check if user already follow this thread
+        jdbcTemplate.update(query, userId, threadId);
     }
 
     @Override
@@ -42,7 +51,7 @@ public class JdbcThreadDao implements ThreadDao {
 
     @Override
     public void update(Thread thread) {
-        String query = "UPDATE Thread" +
+        String query = "UPDATE Thread " +
                        "SET Subject = ?, ViewCount = ?, Active = ?";
 
         jdbcTemplate.update(query, thread.getSubject(), thread.getViewCount(), thread.getActive());
@@ -68,9 +77,10 @@ public class JdbcThreadDao implements ThreadDao {
             Thread thread = new Thread();
             thread.setId(rs.getInt("id"));
             thread.setSubject(rs.getString("subject"));
-            thread.setDateCreated(rs.getDate("dateCreated"));
+            thread.setDateCreated(new DateTime(rs.getTimestamp("dateCreated")));
             thread.setActive(rs.getBoolean("active"));
             thread.setViewCount(rs.getInt("viewCount"));
+            thread.setUserId(rs.getInt("userId"));
             return thread;
         }
     }
