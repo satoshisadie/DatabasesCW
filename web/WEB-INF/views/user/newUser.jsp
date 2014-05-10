@@ -8,23 +8,23 @@
         <label>
             Name
             <input type="text" name="login">
-        </label><br/>
+        </label><br>
         <label>
             Password
             <input type="password" name="password">
-        </label><br/>
+        </label><br>
         <label>
             First Name
             <input type="text" name="firstName">
-        </label><br/>
+        </label><br>
         <label>
             Last Name
             <input type="text" name="lastName">
-        </label><br/>
+        </label><br>
         <label>
             Email
             <input type="text" name="email">
-        </label><br/>
+        </label><br>
         <input type="submit" value="Ok">
     </form>
 </body>

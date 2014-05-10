@@ -2,61 +2,66 @@ package controllers;
 
 import beans.Post;
 import beans.Thread;
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.Multimap;
+import beans.User;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import dao.PostDao;
 import dao.ThreadDao;
+import dao.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class ThreadController {
     @Autowired ThreadDao threadDao;
     @Autowired PostDao postDao;
+    @Autowired UserDao userDao;
 
-    @RequestMapping("newThread.html")
-    public String newThread() {
-        return "thread/newThread";
-    }
-
+    @ResponseBody
     @RequestMapping("createThread.html")
-    public String createThread(Thread thread) {
-        threadDao.create(thread);
-        return "index";
+    public String createThread(@RequestParam(value = "subject", required = true) String threadSubject,
+                               @RequestParam(value = "initialPost", required = true) String initialPost,
+                               HttpServletRequest request) {
+        int userId = (int) request.getSession().getAttribute("userId");
+
+        Thread thread = new Thread();
+        thread.setSubject(threadSubject);
+        thread.setUserId(userId);
+        int threadId = threadDao.create(thread);
+
+        Post post = new Post();
+        post.setMessage(initialPost);
+        post.setThreadId(threadId);
+        post.setUserId(userId);
+        postDao.create(post);
+
+        return "success";
     }
-
-//    @RequestMapping("viewThread.html")
-//    public String viewThread(@RequestParam(value = "threadId", required = true) int threadId,
-//                             HttpServletRequest request) {
-//        request.setAttribute("threadId", threadId);
-//        return "thread/viewThread";
-//    }
-
-//    @RequestMapping("updateThread.html")
-//    public String viewThread(Thread thread) {
-//        threadDao.update(thread);
-//        return "index";
-//    }
 
     @RequestMapping("thread.html")
     public String openThread(@RequestParam(value = "id", required = true) int threadId,
                              HttpServletRequest request) {
         Thread thread = threadDao.get(threadId);
-        List<Post> posts = postDao.getThreadPosts(threadId);
 
-        posts.sort((post1, post2) -> -post1.getDateCreated().compareTo(post2.getDateCreated()));
+        thread.setViewCount(thread.getViewCount() + 1);
+        threadDao.update(thread);
+
+        List<Post> posts = postDao.getThreadPosts(threadId);
+        posts.sort((post1, post2) -> post1.getDateCreated().compareTo(post2.getDateCreated()));
+
+        Set<Integer> usersIds = Sets.newTreeSet(Lists.transform(posts, Post::getUserId));
+        List<User> users = userDao.getAll(usersIds);
+        Map<Integer,User> userById = Maps.uniqueIndex(users, User::getId);
 
         Map<String, List<Post>> postsByParentId = new HashMap<>();
-
         for (Post post : posts) {
             String repliedTo = post.getRepliedTo().toString();
             if (!postsByParentId.containsKey(repliedTo)) {
@@ -66,9 +71,11 @@ public class ThreadController {
         }
         request.setAttribute("thread", thread);
         request.setAttribute("posts", postsByParentId);
+        request.setAttribute("userById", userById);
         return "thread/thread";
     }
 
+    // TODO end this part
     @RequestMapping("followThread")
     public  String followThread(@RequestParam(value = "threadId", required = true) int threadId,
                                 HttpServletRequest request) {

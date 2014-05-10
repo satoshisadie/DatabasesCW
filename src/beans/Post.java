@@ -1,15 +1,20 @@
 package beans;
 
+import helpers.DateUtils;
 import org.joda.time.DateTime;
 
 public class Post {
     private Integer id;
-    private String subject;
     private String message;
+    private Integer rating;
     private DateTime dateCreated;
     private Integer userId;
     private Integer threadId;
     private Integer repliedTo;
+
+    public String getDateCreatedFormatted() {
+        return DateUtils.formatDate(dateCreated);
+    }
 
     public Integer getId() {
         return id;
@@ -19,20 +24,20 @@ public class Post {
         this.id = id;
     }
 
-    public String getSubject() {
-        return subject;
-    }
-
-    public void setSubject(String subject) {
-        this.subject = subject;
-    }
-
     public String getMessage() {
         return message;
     }
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public Integer getRating() {
+        return rating;
+    }
+
+    public void setRating(Integer rating) {
+        this.rating = rating;
     }
 
     public DateTime getDateCreated() {

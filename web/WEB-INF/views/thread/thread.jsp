@@ -3,16 +3,27 @@
 <html>
 <head>
     <title>${thread.subject}</title>
-    <script src="<c:url value="/js/lib/jquery-2.1.1.js"/>" type="application/javascript"></script>
-    <script src="<c:url value="/js/thread.js"/>" type="application/javascript"></script>
+    <link rel="stylesheet" href="<c:url value="/css/jquery-ui-1.10.4.custom.css"/>" type="text/css">
     <link rel="stylesheet" href="<c:url value="/css/styles.css"/>" type="text/css">
+    <script src="<c:url value="/js/lib/jquery-2.1.1.js"/>" type="application/javascript"></script>
+    <script src="<c:url value="/js/lib/jquery-ui-1.10.4.js"/>" type="application/javascript"></script>
+    <script src="<c:url value="/js/thread.js"/>" type="application/javascript"></script>
 </head>
 <body>
-    <input type="hidden" id="threadId" value="${thread.id}">
+    <span class="thread-subject">${thread.subject}</span><br><br>
     <jsp:include page="childPost.jsp">
         <jsp:param name="postShift" value="0"/>
         <jsp:param name="postId" value="0"/>
     </jsp:include>
-    <button class="writePost">Write new post</button>
+    <button id="write-post">Write new post</button>
+
+    <form id="post-form">
+        <input type="hidden" id="post-id">
+        <input type="hidden" id="thread-id" value="${thread.id}">
+        <label>
+            Message<br>
+            <textarea id="message"></textarea>
+        </label><br>
+    </form>
 </body>
 </html>

@@ -25,7 +25,10 @@ public class JdbcPostDao implements PostDao {
 
     @Override
     public void create(Post post) {
+        String query = "INSERT INTO Post(Message, ThreadId, UserId, RepliedTo) " +
+                       "VALUES (?, ?, ?, ?)";
 
+        jdbcTemplate.update(query, post.getMessage(), post.getThreadId(), post.getUserId(), post.getRepliedTo());
     }
 
     @Override
@@ -57,9 +60,9 @@ public class JdbcPostDao implements PostDao {
         public Post mapRow(ResultSet rs, int rowNum) throws SQLException {
             Post post = new Post();
             post.setId(rs.getInt("id"));
-            post.setSubject(rs.getString("subject"));
             post.setMessage(rs.getString("message"));
-            post.setDateCreated(new DateTime(rs.getDate("dateCreated")));
+            post.setRating(rs.getInt("rating"));
+            post.setDateCreated(new DateTime(rs.getTimestamp("dateCreated")));
             post.setThreadId(rs.getInt("threadId"));
             post.setUserId(rs.getInt("userId"));
             post.setRepliedTo(rs.getInt("repliedTo"));

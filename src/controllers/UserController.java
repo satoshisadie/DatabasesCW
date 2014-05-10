@@ -12,7 +12,7 @@ public class UserController {
 
     @RequestMapping("createUser.html")
     public String userRegistration(User user) {
-        userDao.create(user);
+        userDao.createUser(user);
         return "authorization";
     }
 

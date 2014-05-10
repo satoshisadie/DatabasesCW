@@ -1,16 +1,47 @@
 $(document).ready(function() {
-    $(".writePost").each(function() {
+    $("#write-post").click(function() {
+        $("#post-form").dialog("open");
+    });
+
+    $(".reply-post").each(function() {
         $(this).click(function() {
-            var threadId = $(window).children("#threadId").val();
-            window.location = "./writePost.html?threadId=" + threadId;
+            $("#post-id").val($(this).parent().children(".post-id").val());
+            $("#post-form").dialog("open");
         });
     });
 
-    $(".replyPost").each(function() {
+    $(".complain-post").each(function() {
         $(this).click(function() {
-            var threadId = $(window).children("#threadId").val();
-            var repliedTo = $(this).parent().children(".postId").val();
+            var threadId = $(document.body).children("#thread-id").val();
+            var repliedTo = $(this).parent().children(".post-id").val();
             window.location = "./writePost.html?threadId=" + threadId + "&repliedTo=" + repliedTo;
         });
+    });
+
+    $("#post-form").dialog({
+        autoOpen: false,
+        height: 250,
+        width: 500,
+        modal: true,
+        buttons: {
+            "Ok": function() {
+                $.ajax({
+                    url: "createPost.html",
+                    type: "POST",
+                    data: {
+                        threadId: $("#thread-id").val(),
+                        postId: $("#post-id").val(),
+                        message: $("#message").val()
+                    },
+                    success: function() {
+                        location.reload();
+                    }
+                });
+                $(this).dialog("close");
+            },
+            "Cancel": function() {
+                $(this).dialog("close");
+            }
+        }
     });
 });

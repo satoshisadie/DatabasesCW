@@ -8,13 +8,14 @@
         <label>
             Login
             <input type="text" name="login">
-        </label><br/>
+        </label><br>
         <label>
             Password
             <input type="password" name="password">
-        </label><br/>
+        </label><br>
         <input type="submit" value="Ok">
     </form>
+    <button>Create new user</button>
     <a href="${pageContext.request.contextPath}/registration.html">Create new user</a>
 </body>
 </html>

@@ -1,3 +1,29 @@
 .post {
     position: relative;
 }
+
+.thread-subject {
+    font-size: 30px;
+    color: darkred;
+}
+
+.thread-subject:hover {
+    color: indianred;
+    cursor: pointer;
+}
+
+#post-form,
+#thread-form {
+    display: none;
+}
+
+.thread-info,
+.post-info {
+    font-size: 12px;
+    color: #666666;
+}
+
+.post-author {
+    font-size: 20px;
+    color: #222222;
+}

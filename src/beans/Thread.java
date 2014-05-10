@@ -1,5 +1,6 @@
 package beans;
 
+import helpers.DateUtils;
 import org.joda.time.DateTime;
 
 public class Thread {
@@ -7,8 +8,17 @@ public class Thread {
     private String subject;
     private Integer viewCount;
     private DateTime dateCreated;
+    private DateTime dateLastPost;
     private Boolean active;
     private Integer userId;
+
+    public String getDateCreatedFormatted() {
+        return DateUtils.formatDate(dateCreated);
+    }
+
+    public String getDateLastPostFormatted() {
+        return DateUtils.formatDate(dateLastPost);
+    }
 
     public Integer getId() {
         return id;
@@ -40,6 +50,14 @@ public class Thread {
 
     public void setDateCreated(DateTime dateCreated) {
         this.dateCreated = dateCreated;
+    }
+
+    public DateTime getDateLastPost() {
+        return dateLastPost;
+    }
+
+    public void setDateLastPost(DateTime dateLastPost) {
+        this.dateLastPost = dateLastPost;
     }
 
     public Boolean getActive() {
