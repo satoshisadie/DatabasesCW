@@ -1,11 +1,10 @@
 package controllers;
 
+import beans.ForumRule;
 import beans.Post;
 import beans.Thread;
 import beans.User;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
+import com.google.common.collect.*;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import dao.CommonDao;
@@ -59,6 +58,7 @@ public class ThreadController {
     public String openThread(@RequestParam(value = "id", required = true) int threadId,
                              HttpServletRequest request) {
         Thread thread = threadDao.get(threadId);
+        request.setAttribute("thread", thread);
 
         thread.setViewCount(thread.getViewCount() + 1);
         threadDao.update(thread);
@@ -69,18 +69,17 @@ public class ThreadController {
         Set<Integer> usersIds = Sets.newTreeSet(Lists.transform(posts, Post::getUserId));
         List<User> users = userDao.getAll(usersIds);
         Map<Integer,User> userById = Maps.uniqueIndex(users, User::getId);
-
-        Map<String, List<Post>> postsByParentId = new HashMap<>();
-        for (Post post : posts) {
-            String repliedTo = post.getRepliedTo().toString();
-            if (!postsByParentId.containsKey(repliedTo)) {
-                postsByParentId.put(repliedTo, new ArrayList<>());
-            }
-            postsByParentId.get(repliedTo).add(post);
-        }
-        request.setAttribute("thread", thread);
-        request.setAttribute("posts", postsByParentId);
         request.setAttribute("userById", userById);
+
+        Multimap<String, Post> postsByParentId = ArrayListMultimap.create();
+        for (Post post : posts) {
+            postsByParentId.put(post.getRepliedTo().toString(), post);
+        }
+        request.setAttribute("posts", postsByParentId.asMap());
+
+        List<ForumRule> forumRules = commonDao.getAllRules();
+        request.setAttribute("forumRules", forumRules);
+
         return "thread/thread";
     }
 

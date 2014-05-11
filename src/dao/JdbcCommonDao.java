@@ -60,7 +60,18 @@ public class JdbcCommonDao implements CommonDao {
 
     @Override
     public List<ForumRule> getAllRules() {
-        return null;
+        String query = "SELECT * " +
+                       "FROM ForumRule";
+
+        return jdbcTemplate.query(query, new ForumRuleRowMapper());
+    }
+
+    @Override
+    public void attachViolation(int postId, int ruleId) {
+        String query = "INSERT INTO RuleViolation(PostId, RuleId) " +
+                       "VALUES (?, ?)";
+
+        jdbcTemplate.update(query, postId, ruleId);
     }
 
     public DataSource getDataSource() {
@@ -90,6 +101,17 @@ public class JdbcCommonDao implements CommonDao {
             threadTag.setThreadId(rs.getInt("threadId"));
             threadTag.setTagId(rs.getInt("tagId"));
             return threadTag;
+        }
+    }
+
+    class ForumRuleRowMapper implements RowMapper<ForumRule> {
+        @Override
+        public ForumRule mapRow(ResultSet rs, int rowNum) throws SQLException {
+            ForumRule forumRule = new ForumRule();
+            forumRule.setId(rs.getInt("id"));
+            forumRule.setName(rs.getString("name"));
+            forumRule.setDescription(rs.getString("description"));
+            return forumRule;
         }
     }
 }

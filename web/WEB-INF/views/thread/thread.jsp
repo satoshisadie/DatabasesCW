@@ -18,12 +18,22 @@
         </jsp:include>
         <button id="write-post">Write new post</button>
 
+        <input type="hidden" id="post-id">
         <form id="post-form">
-            <input type="hidden" id="post-id">
             <input type="hidden" id="thread-id" value="${thread.id}">
             <label>
                 Message<br>
                 <textarea id="message"></textarea>
+            </label><br>
+        </form>
+        <form id="complain-form">
+            <label>
+                Select violated rule<br>
+                <select id="violated-rule">
+                    <c:forEach items="${forumRules}" var="forumRule">
+                        <option value="${forumRule.id}">${forumRule.name}</option>
+                    </c:forEach>
+                </select>
             </label><br>
         </form>
     </div>

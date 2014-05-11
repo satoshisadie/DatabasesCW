@@ -29,7 +29,8 @@
 }
 
 #post-form,
-#thread-form {
+#thread-form,
+#complain-form {
     display: none;
 }
 

@@ -1,6 +1,7 @@
 package controllers;
 
 import beans.Post;
+import dao.CommonDao;
 import dao.PostDao;
 import dao.ThreadDao;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +16,11 @@ import javax.servlet.http.HttpServletRequest;
 public class PostController {
     @Autowired PostDao postDao;
     @Autowired ThreadDao threadDao;
+    @Autowired CommonDao commonDao;
 
     @ResponseBody
     @RequestMapping("createPost.html")
-    public String createPost(@RequestParam(value = "threadId", required = true) int threadId,
+    public String createPost(@RequestParam(value = "threadId", required = true) Integer threadId,
                              @RequestParam(value = "postId", required = false) Integer postId,
                              @RequestParam(value = "message", required = true) String message,
                              HttpServletRequest request) {
@@ -31,6 +33,14 @@ public class PostController {
         post.setUserId(userId);
         postDao.create(post);
 
+        return "success";
+    }
+
+    @ResponseBody
+    @RequestMapping("complainPost.html")
+    public String complainPost(@RequestParam(value = "postId", required = true) Integer postId,
+                               @RequestParam(value = "ruleId", required = true) Integer ruleId) {
+        commonDao.attachViolation(postId, ruleId);
         return "success";
     }
 }

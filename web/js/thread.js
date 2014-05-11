@@ -11,14 +11,6 @@ $(document).ready(function() {
         });
     });
 
-    $(".complain-post").each(function() {
-        $(this).click(function() {
-            var threadId = $(document.body).children("#thread-id").val();
-            var repliedTo = $(this).parent().children(".post-id").val();
-            window.location = "./writePost.html?threadId=" + threadId + "&repliedTo=" + repliedTo;
-        });
-    });
-
     $("#post-form").dialog({
         autoOpen: false,
         height: 250,
@@ -27,7 +19,7 @@ $(document).ready(function() {
         buttons: {
             "Ok": function() {
                 $.ajax({
-                    url: "createPost.html",
+                    url: "./createPost.html",
                     type: "POST",
                     data: {
                         threadId: $("#thread-id").val(),
@@ -36,6 +28,39 @@ $(document).ready(function() {
                     },
                     success: function() {
                         location.reload();
+                    }
+                });
+                $(this).dialog("close");
+            },
+            "Cancel": function() {
+                $(this).dialog("close");
+            }
+        }
+    });
+
+    $(".complain-post").each(function() {
+        $(this).click(function() {
+            $("#post-id").val($(this).parent().children(".post-id").val());
+            $("#complain-form").dialog("open");
+        });
+    });
+
+    $("#complain-form").dialog({
+        autoOpen: false,
+        height: 230,
+        width: 350,
+        modal: true,
+        buttons: {
+            "Complain": function() {
+                $.ajax({
+                    url: "./complainPost.html",
+                    type: "POST",
+                    data: {
+                        postId: $("#post-id").val(),
+                        ruleId: $("#violated-rule").find(":selected").val()
+                    },
+                    success: function() {
+                        alert("Post was complained");
                     }
                 });
                 $(this).dialog("close");

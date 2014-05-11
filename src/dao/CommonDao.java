@@ -11,4 +11,5 @@ public interface CommonDao {
     public List<ThreadTag> getThreadTagForThreads(List<Integer> threadsIds);
     public void attachTags(int threadId, List<Integer> tagsIds);
     public List<ForumRule> getAllRules();
+    public void attachViolation(int postId, int ruleId);
 }
