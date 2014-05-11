@@ -44,7 +44,14 @@ $(document).ready(function() {
                     type: "POST",
                     data: {
                         subject: $("#subject").val(),
-                        initialPost: $("#initialPost").val()
+                        initialPost: $("#initial-post").val(),
+                        tags: function() {
+                            var tags = [];
+                            $("#post-tags").find(":selected").each(function(i, selected) {
+                                tags[i] = $(selected).val();
+                            });
+                            return JSON.stringify(tags);
+                        }()
                     },
                     success: function() {
                         location.reload();

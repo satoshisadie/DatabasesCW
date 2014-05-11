@@ -6,6 +6,9 @@ import beans.User;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import com.google.common.reflect.TypeToken;
+import com.google.gson.Gson;
+import dao.CommonDao;
 import dao.PostDao;
 import dao.ThreadDao;
 import dao.UserDao;
@@ -24,11 +27,14 @@ public class ThreadController {
     @Autowired ThreadDao threadDao;
     @Autowired PostDao postDao;
     @Autowired UserDao userDao;
+    @Autowired CommonDao commonDao;
+    private Gson serializer = new Gson();
 
     @ResponseBody
     @RequestMapping("createThread.html")
     public String createThread(@RequestParam(value = "subject", required = true) String threadSubject,
                                @RequestParam(value = "initialPost", required = true) String initialPost,
+                               @RequestParam(value = "tags", required = true) String tagsJson,
                                HttpServletRequest request) {
         int userId = (int) request.getSession().getAttribute("userId");
 
@@ -36,6 +42,9 @@ public class ThreadController {
         thread.setSubject(threadSubject);
         thread.setUserId(userId);
         int threadId = threadDao.create(thread);
+
+        List<Integer> tagsIds = serializer.fromJson(tagsJson, new TypeToken<List<Integer>>(){}.getType());
+        commonDao.attachTags(threadId, tagsIds);
 
         Post post = new Post();
         post.setMessage(initialPost);

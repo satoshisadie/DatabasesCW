@@ -15,10 +15,9 @@
             <button class="reply-post">Reply</button>
             <button class="complain-post">Complain</button>
         </div>
-        <hr>
 
         <jsp:include page="childPost.jsp">
-            <jsp:param name="postShift" value="${postShift + 50}"/>
+            <jsp:param name="postShift" value="${postShift + 70}"/>
             <jsp:param name="postId" value="${post.id}"/>
         </jsp:include>
     </c:forEach>

@@ -1,11 +1,9 @@
 package controllers;
 
+import beans.*;
 import beans.Thread;
-import beans.User;
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
+import com.google.common.collect.*;
+import dao.CommonDao;
 import dao.ThreadDao;
 import dao.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,26 +18,46 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeSet;
 
 @Controller
 public class MainController {
     @Autowired ThreadDao threadDao;
     @Autowired UserDao userDao;
+    @Autowired CommonDao commonDao;
 
     @RequestMapping("index.html")
     public String mainPage(HttpServletRequest request) {
         List<Thread> threads = threadDao.getAll();
         threads.sort((thread1, thread2) -> -thread1.getDateLastPost().compareTo(thread2.getDateLastPost()));
-
-        Set<Integer> usersIds = Sets.newTreeSet(Lists.transform(threads, Thread::getUserId));
-        List<User> users = userDao.getAll(usersIds);
-        Map<Thread, User> userByThread = Maps.toMap(threads, thread -> Iterables.find(users, user -> user.getId().equals(thread.getUserId())));
-
-
-
         request.setAttribute("threads", threads);
-        request.setAttribute("userByThread", userByThread);
+
+        if (threads.size() > 0) {
+            Set<Integer> usersIds = Sets.newTreeSet(Lists.transform(threads, Thread::getUserId));
+            List<User> users = userDao.getAll(usersIds);
+            Map<Thread, User> userByThread = Maps.toMap(threads, thread -> Iterables.find(users, user -> user.getId().equals(thread.getUserId())));
+            request.setAttribute("userByThread", userByThread);
+
+            List<ThreadTag> threadTags = commonDao.getThreadTagForThreads(Lists.transform(threads, Thread::getId));
+            Multimap<Integer, Integer> tagsByThreadId = ArrayListMultimap.create();
+            for (ThreadTag threadTag : threadTags) {
+                tagsByThreadId.put(threadTag.getThreadId(), threadTag.getTagId());
+            }
+            request.setAttribute("tagsByThreadId", tagsByThreadId.asMap());
+        }
+
+        List<Tag> tags = commonDao.getAllTags();
+        request.setAttribute("tags", tags);
+
+        Map<Integer, Tag> tagById = Maps.uniqueIndex(tags, Tag::getId);
+        request.setAttribute("tagById", tagById);
+
+        return "index";
+    }
+
+    @RequestMapping("rules.html")
+    public String forumRules(HttpServletRequest request) {
+        List<ForumRule> rules = commonDao.getAllRules();
+        request.setAttribute("rules", rules);
         return "index";
     }
 

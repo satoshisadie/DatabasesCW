@@ -1,5 +1,6 @@
 $(document).ready(function() {
     $("#write-post").click(function() {
+        $("#post-id").val("");
         $("#post-form").dialog("open");
     });
 

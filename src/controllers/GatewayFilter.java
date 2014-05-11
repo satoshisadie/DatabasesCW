@@ -9,7 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class GatewayFilter implements Filter {
-    private List<String> exceptAddresses = Arrays.asList("authorization.html", "authorize.html");
+    private List<String> exceptAddresses = Arrays.asList("authorization.html", "authorize.html", "registration.html", "createUser.html");
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
