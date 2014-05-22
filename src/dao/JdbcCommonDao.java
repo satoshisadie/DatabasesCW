@@ -2,6 +2,7 @@ package dao;
 
 import beans.ForumRule;
 import beans.Tag;
+import beans.ThreadFollower;
 import beans.ThreadTag;
 import com.google.common.base.Joiner;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -33,17 +34,6 @@ public class JdbcCommonDao implements CommonDao {
         return jdbcTemplate.query(query, new ThreadTagRowMapper());
     }
 
-//    @Override
-//    public List<Tag> getThreadTags(int threadId) {
-//        String query = "SELECT * " +
-//                       "FROM Thread t " +
-//                       "JOIN ThreadTags tt ON tt.ThreadId = t.Id " +
-//                       "JOIN Tag tg ON tg.Id = tt.TagId " +
-//                       "WHERE t.Id = ?";
-//
-//        return jdbcTemplate.query(query, new TagRowMapper(), threadId);
-//    }
-
     @Override
     public void attachTags(int threadId, List<Integer> tagsIds) {
         StringBuilder query = new StringBuilder();
@@ -67,11 +57,20 @@ public class JdbcCommonDao implements CommonDao {
     }
 
     @Override
-    public void attachViolation(int postId, int ruleId) {
-        String query = "INSERT INTO RuleViolation(PostId, RuleId) " +
-                       "VALUES (?, ?)";
+    public void attachViolation(int postId, int ruleId, String violationComment) {
+        String query = "INSERT INTO RuleViolation(PostId, RuleId, Comment) " +
+                       "VALUES (?, ?, ?)";
 
-        jdbcTemplate.update(query, postId, ruleId);
+        jdbcTemplate.update(query, postId, ruleId, violationComment);
+    }
+
+    @Override
+    public List<ThreadFollower> getThreadFollowersByUserId(int userId) {
+        String query = "SELECT * " +
+                       "FROM ThreadFollower tf " +
+                       "WHERE tf.UserId = ?";
+
+        return jdbcTemplate.query(query, new ThreadFollowerRowMapper(), userId);
     }
 
     public DataSource getDataSource() {
@@ -112,6 +111,16 @@ public class JdbcCommonDao implements CommonDao {
             forumRule.setName(rs.getString("name"));
             forumRule.setDescription(rs.getString("description"));
             return forumRule;
+        }
+    }
+
+    class ThreadFollowerRowMapper implements RowMapper<ThreadFollower> {
+        @Override
+        public ThreadFollower mapRow(ResultSet rs, int rowNum) throws SQLException {
+            ThreadFollower threadFollower = new ThreadFollower();
+            threadFollower.setUserId(rs.getInt("userId"));
+            threadFollower.setThreadId(rs.getInt("threadId"));
+            return threadFollower;
         }
     }
 }

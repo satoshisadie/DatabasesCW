@@ -9,12 +9,14 @@ import dao.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -28,6 +30,7 @@ public class MainController {
     @RequestMapping("index.html")
     public String mainPage(HttpServletRequest request) {
         List<Thread> threads = threadDao.getAll();
+
         threads.sort((thread1, thread2) -> -thread1.getDateLastPost().compareTo(thread2.getDateLastPost()));
         request.setAttribute("threads", threads);
 
@@ -50,6 +53,13 @@ public class MainController {
 
         Map<Integer, Tag> tagById = Maps.uniqueIndex(tags, Tag::getId);
         request.setAttribute("tagById", tagById);
+
+        HttpSession session = request.getSession();
+        int userId = (int) session.getAttribute("userId");
+
+        List<ThreadFollower> threadFollowers = commonDao.getThreadFollowersByUserId(userId);
+        Set<Integer> followedThreads = Sets.newHashSet(Lists.transform(threadFollowers, ThreadFollower::getThreadId));
+        request.setAttribute("followedThreads", followedThreads);
 
         return "index";
     }

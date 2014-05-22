@@ -39,8 +39,9 @@ public class PostController {
     @ResponseBody
     @RequestMapping("complainPost.html")
     public String complainPost(@RequestParam(value = "postId", required = true) Integer postId,
-                               @RequestParam(value = "ruleId", required = true) Integer ruleId) {
-        commonDao.attachViolation(postId, ruleId);
+                               @RequestParam(value = "ruleId", required = true) Integer ruleId,
+                               @RequestParam(value = "violationComment", required = false) String violationComment) {
+        commonDao.attachViolation(postId, ruleId, violationComment);
         return "success";
     }
 }

@@ -83,13 +83,23 @@ public class ThreadController {
         return "thread/thread";
     }
 
-    // TODO end this part
-    @RequestMapping("followThread")
+    @ResponseBody
+    @RequestMapping("followThread.html")
     public  String followThread(@RequestParam(value = "threadId", required = true) int threadId,
                                 HttpServletRequest request) {
         HttpSession session = request.getSession();
         int userId = (int) session.getAttribute("userId");
         threadDao.follow(userId, threadId);
-        return "index";
+        return "success";
+    }
+
+    @ResponseBody
+    @RequestMapping("cancelFollowing.html")
+    public  String cancelFollowing(@RequestParam(value = "threadId", required = true) int threadId,
+                                   HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        int userId = (int) session.getAttribute("userId");
+        threadDao.cancelFollowing(userId, threadId);
+        return "success";
     }
 }

@@ -34,6 +34,14 @@ public class JdbcThreadDao implements ThreadDao {
     }
 
     @Override
+    public void cancelFollowing(int userId, int threadId) {
+        String query = "DELETE ThreadFollower " +
+                       "WHERE UserId = ? AND ThreadId = ?";
+
+        jdbcTemplate.update(query, userId, threadId);
+    }
+
+    @Override
     public int create(Thread thread) {
         String query = "INSERT INTO Thread(Subject, UserId) " +
                        "VALUES (?, ?)";

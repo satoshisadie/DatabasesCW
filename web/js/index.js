@@ -15,15 +15,38 @@ $(document).ready(function() {
     });
 
     $(".follow-thread").each(function() {
-        this.click(function() {
-            var threadId = $(this).parent(".thread").children(".thread-id").val();
-            window.location = "./followThread?threadId=" + threadId;
+        $(this).click(function() {
+            $.ajax({
+                url: "followThread.html",
+                type: "POST",
+                data: {
+                    threadId: $(this).parents(".thread").children(".thread-id").val()
+                },
+                success: function() {
+                    location.reload();
+                }
+            });
+        });
+    });
+
+    $(".cancel-following").each(function() {
+        $(this).click(function() {
+            $.ajax({
+                url: "cancelFollowing.html",
+                type: "POST",
+                data: {
+                    threadId: $(this).parents(".thread").children(".thread-id").val()
+                },
+                success: function() {
+                    location.reload();
+                }
+            });
         });
     });
 
     $(".thread-subject").each(function() {
         $(this).click(function() {
-            var threadId = $(this).parent(".thread").children(".thread-id").val();
+            var threadId = $(this).parents(".thread").children(".thread-id").val();
             window.location = "./thread.html?id=" + threadId;
         });
     });
@@ -34,9 +57,14 @@ $(document).ready(function() {
 
     $("#thread-form").dialog({
         autoOpen: false,
-        height: 400,
+        height: "auto",
         width: 500,
         modal: true,
+        position: {
+            my: "center",
+            at: "center",
+            of: window
+        },
         buttons: {
             "Ok": function() {
                 $.ajax({

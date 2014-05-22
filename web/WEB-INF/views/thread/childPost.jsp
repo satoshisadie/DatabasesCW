@@ -6,14 +6,22 @@
     <c:forEach items="${children}" var="post">
         <c:set var="user" value="${userById.get(post.userId)}"/>
 
-        <div class="post" style="left: ${postShift}px;">
+        <div class="post" style="left: ${postShift}px; width: ${800 - postShift}px;">
             <input type="hidden" class="post-id" value="${post.id}">
             <input type="hidden" class="user-id" value="${post.userId}">
-            <span class="post-author">${user.login}</span>
-            <span class="post-info">${post.dateCreatedFormatted}</span><br>
+            <div class="post-header" style="clear: both">
+                <span class="post-author">${user.login}</span>
+                <span class="post-info">${post.dateCreatedFormatted}</span>
+                <c:if test="${thread.active}">
+                    <div class="post-actions" style="float: right; margin-top: 5px;">
+                        <span class="ui-icon ui-icon-arrowreturnthick-1-w reply-post" style="display: inline-block;"
+                              data-toggle="tooltip" data-placement="left" title="Reply"></span>
+                        <span class="ui-icon ui-icon-alert complain-post" style="display: inline-block; margin-left: 20px;"
+                              data-toggle="tooltip" data-placement="right" title="Complain"></span>
+                    </div>
+                </c:if>
+            </div><br>
             <span class="post-message">${post.message}</span><br>
-            <button class="reply-post">Reply</button>
-            <button class="complain-post">Complain</button>
         </div>
 
         <jsp:include page="childPost.jsp">

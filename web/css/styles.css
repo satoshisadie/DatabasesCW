@@ -1,3 +1,13 @@
+.centered {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.ui-dialog-titlebar {
+    display: none;
+}
+
 #page-content {
     margin: 0 auto;
     width: 800px;
@@ -5,6 +15,7 @@
     bottom: 0;
     left: 0;
     right: 0;
+    display: block;
 }
 
 .thread {
@@ -16,16 +27,35 @@
 .post {
     margin-top: 20px;
     position: relative;
+    display: block;
+}
+
+.post-author {
+    margin-left: 10px;
+    font-size: 20px;
+    color: #222222;
+}
+
+.post-header {
+    width: auto;
+    background-color: aliceblue;
 }
 
 .thread-subject {
     font-size: 30px;
-    color: darkred;
 }
 
 .thread-subject:hover {
     color: indianred;
     cursor: pointer;
+}
+
+.alive-thread-subject {
+    color: darkred;
+}
+
+.dead-thread-subject {
+    color: black;
 }
 
 #post-form,
@@ -40,13 +70,8 @@
     color: #666666;
 }
 
-.post-author {
-    font-size: 20px;
-    color: #222222;
-}
-
 .tag {
-    font-size: 10px;
+    font-size: 12px;
     background: #eee;
     border-radius: 3px 0 0 3px;
     color: #999;
