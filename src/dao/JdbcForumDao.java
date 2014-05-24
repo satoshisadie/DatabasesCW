@@ -15,6 +15,17 @@ public class JdbcForumDao implements ForumDao {
     JdbcTemplate jdbcTemplate;
 
     @Override
+    public Forum getForum(int forumId) {
+        String query = "SELECT * " +
+                       "FROM Forum f " +
+                       "WHERE f.Id = ?";
+
+        List<Forum> result = jdbcTemplate.query(query, new ForumRowMapper(), forumId);
+
+        return result.size() != 0 ? result.get(0) : null;
+    }
+
+    @Override
     public List<Thread> getThreads(int forumId) {
         String query = "SELECT * " +
                        "FROM Thread t " +

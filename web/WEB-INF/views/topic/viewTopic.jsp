@@ -10,21 +10,28 @@
     <script src="<c:url value="/js/lib/jquery-2.1.1.js"/>" type="application/javascript"></script>
     <script src="<c:url value="/js/lib/jquery-ui-1.10.4.js"/>" type="application/javascript"></script>
     <script src="<c:url value="/js/lib/bootstrap.js"/>" type="application/javascript"></script>
+    <script src="<c:url value="/js/menu.js"/>" type="application/javascript"></script>
     <script src="<c:url value="/js/viewTopic.js"/>" type="application/javascript"></script>
 </head>
 <body>
-    <div id="page-content">
-        <span class="thread-subject ${thread.active ? "alive-thread-subject" : "dead-thread-subject"}">${thread.subject}</span><br>
-        <jsp:include page="childPost.jsp">
-            <jsp:param name="postShift" value="0"/>
-            <jsp:param name="postId" value="0"/>
-        </jsp:include>
+    <div class="container">
+        <jsp:include page="../menu.jsp"/>
 
-        <c:if test="${thread.active}">
-            <button class="btn btn-primary" id="write-post" style="margin-top: 20px;">Write new post</button>
-        </c:if>
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <span class="topic-subject ${thread.active ? "alive-topic-subject" : "dead-topic-subject"}">${thread.subject}</span><br>
+                <jsp:include page="childPost.jsp">
+                    <jsp:param name="postShift" value="0"/>
+                    <jsp:param name="postId" value="0"/>
+                </jsp:include>
 
-        <input type="hidden" id="thread-status" value="${thread.active}">
+                <c:if test="${thread.active}">
+                    <button class="btn btn-primary" id="write-post" style="margin-top: 20px;">Write new post</button>
+                </c:if>
+            </div>
+        </div>
+
+        <input type="hidden" id="topic-status" value="${thread.active}">
         <input type="hidden" id="post-id">
 
         <div class="modal fade" id="complain-form">

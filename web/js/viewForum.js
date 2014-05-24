@@ -12,7 +12,7 @@ $(document).ready(function() {
                 url: "followTopic.html",
                 type: "POST",
                 data: {
-                    threadId: $(this).parents(".topic").children(".topic-id").val()
+                    topicId: $(this).parents(".topic").children(".topic-id").val()
                 },
                 success: function() {
                     location.reload();
@@ -27,7 +27,7 @@ $(document).ready(function() {
                 url: "cancelFollowing.html",
                 type: "POST",
                 data: {
-                    threadId: $(this).parents(".topic").children(".topic-id").val()
+                    topicId: $(this).parents(".topic").children(".topic-id").val()
                 },
                 success: function() {
                     location.reload();
@@ -38,50 +38,35 @@ $(document).ready(function() {
 
     $(".topic-subject").each(function() {
         $(this).click(function() {
-            var threadId = $(this).parents(".topic").children(".topic-id").val();
-            window.location = "./viewTopic.html?id=" + threadId;
+            var topicId = $(this).parents(".topic").children(".topic-id").val();
+            window.location = "./viewTopic.html?id=" + topicId;
         });
     });
 
     $("#create-topic").click(function() {
-        $("#topic-form").dialog("open");
+        $("#topic-form").modal("show");
     });
 
-    $("#topic-form").dialog({
-        autoOpen: false,
-        height: "auto",
-        width: 500,
-        modal: true,
-        position: {
-            my: "center",
-            at: "center",
-            of: window
-        },
-        buttons: {
-            "Ok": function() {
-                $.ajax({
-                    url: "createTopic.html",
-                    type: "POST",
-                    data: {
-                        subject: $("#subject").val(),
-                        initialPost: $("#initial-post").val(),
-                        tags: function() {
-                            var tags = [];
-                            $("#post-tags").find(":selected").each(function(i, selected) {
-                                tags[i] = $(selected).val();
-                            });
-                            return JSON.stringify(tags);
-                        }()
-                    },
-                    success: function() {
-                        location.reload();
-                    }
-                });
-                $(this).dialog("close");
+    $("#submit-topic-form").click(function() {
+        $.ajax({
+            url: "createTopic.html",
+            type: "POST",
+            data: {
+                forumId: $("#forumId").val(),
+                subject: $("#subject").val(),
+                initialPost: $("#initial-post").val(),
+                tags: function() {
+                    var tags = [];
+                    $("#topic-tags").find(":selected").each(function(i, selected) {
+                        tags[i] = $(selected).val();
+                    });
+                    return JSON.stringify(tags);
+                }()
             },
-            "Cancel": function() {
-                $(this).dialog("close");
+            success: function() {
+                location.reload();
             }
-        }
+        });
+        $("#topic-form").modal("hide");
     });
 });

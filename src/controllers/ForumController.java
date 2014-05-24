@@ -26,6 +26,8 @@ public class ForumController {
     @RequestMapping("viewForum.html")
     public String viewForum(@RequestParam(value = "id") Integer forumId,
                             HttpServletRequest request) {
+        request.setAttribute("forumId", forumId);
+
         List<Thread> threads = forumDao.getThreads(forumId);
         // Sort threads from last date to earliest date
         threads.sort((thread1, thread2) -> -thread1.getDateLastPost().compareTo(thread2.getDateLastPost()));
