@@ -43,8 +43,8 @@ public class JdbcThreadDao implements ThreadDao {
 
     @Override
     public int create(Thread thread) {
-        String query = "INSERT INTO Thread(Subject, UserId) " +
-                       "VALUES (?, ?)";
+        String query = "INSERT INTO Thread(Subject, UserId, ForumId) " +
+                       "VALUES (?, ?, ?)";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
@@ -52,6 +52,7 @@ public class JdbcThreadDao implements ThreadDao {
             PreparedStatement preparedStatement = connection.prepareStatement(query, new String[]{"Id"});
             preparedStatement.setString(1, thread.getSubject());
             preparedStatement.setInt(2, thread.getUserId());
+            preparedStatement.setInt(3, thread.getForumId());
             return preparedStatement;
         }, keyHolder);
 

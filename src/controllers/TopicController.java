@@ -41,6 +41,7 @@ public class TopicController {
         Thread thread = new Thread();
         thread.setSubject(threadSubject);
         thread.setUserId(userId);
+        thread.setForumId(forumId);
         int threadId = threadDao.create(thread);
 
         List<Integer> tagsIds = serializer.fromJson(tagsJson, new TypeToken<List<Integer>>(){}.getType());

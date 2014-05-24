@@ -11,6 +11,7 @@ public class Thread {
     private DateTime dateLastPost;
     private Boolean active;
     private Integer userId;
+    private Integer forumId;
 
     public String getDateCreatedFormatted() {
         return DateUtils.formatDate(dateCreated);
@@ -74,5 +75,13 @@ public class Thread {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    public Integer getForumId() {
+        return forumId;
+    }
+
+    public void setForumId(Integer forumId) {
+        this.forumId = forumId;
     }
 }

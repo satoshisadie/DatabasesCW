@@ -57,7 +57,7 @@
                                 <span class="topic-subject ${thread.active ? "alive-topic-subject" : "dead-topic-subject"}">${thread.subject}</span>
                                 <span class="topic-tags">
                                     <c:forEach items="${tagsByThreadId.get(thread.id)}" var="tagId">
-                                        <span class="label label-default">${tagById.get(tagId).name}</span>
+                                        <span class="label label-default tag">${tagById.get(tagId).name}</span>
                                     </c:forEach>
                                 </span>
                             </div>
@@ -70,8 +70,8 @@
                         </div>
                         <hr>
                     </c:forEach>
-                    <button class="btn btn-primary btn-lg" id="create-topic">Create new topic</button>
                 </c:if>
+                <button class="btn btn-primary" id="create-topic">Create new topic</button>
             </div>
         </div>
 
@@ -108,6 +108,6 @@
         </div>
     </div>
 
-    <input type="hidden" value="${forumId}">
+    <input type="hidden" id="forumId" value="${forumId}">
 </body>
 </html>
