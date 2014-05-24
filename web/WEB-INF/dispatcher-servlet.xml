@@ -37,4 +37,8 @@
     <bean id="commonDao" class="dao.JdbcCommonDao">
         <property name="dataSource" ref="dataSource"/>
     </bean>
+
+    <bean id="forumDao" class="dao.JdbcForumDao">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
 </beans>

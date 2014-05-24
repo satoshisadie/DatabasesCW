@@ -94,19 +94,19 @@ public class JdbcThreadDao implements ThreadDao {
         this.dataSource = dataSource;
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
+}
 
-    class ThreadRowMapper implements RowMapper<Thread> {
-        @Override
-        public Thread mapRow(ResultSet rs, int rowNum) throws SQLException {
-            Thread thread = new Thread();
-            thread.setId(rs.getInt("id"));
-            thread.setSubject(rs.getString("subject"));
-            thread.setDateCreated(new DateTime(rs.getTimestamp("dateCreated")));
-            thread.setDateLastPost(new DateTime(rs.getTimestamp("dateLastPost")));
-            thread.setActive(rs.getBoolean("active"));
-            thread.setViewCount(rs.getInt("viewCount"));
-            thread.setUserId(rs.getInt("userId"));
-            return thread;
-        }
+class ThreadRowMapper implements RowMapper<Thread> {
+    @Override
+    public Thread mapRow(ResultSet rs, int rowNum) throws SQLException {
+        Thread thread = new Thread();
+        thread.setId(rs.getInt("id"));
+        thread.setSubject(rs.getString("subject"));
+        thread.setDateCreated(new DateTime(rs.getTimestamp("dateCreated")));
+        thread.setDateLastPost(new DateTime(rs.getTimestamp("dateLastPost")));
+        thread.setActive(rs.getBoolean("active"));
+        thread.setViewCount(rs.getInt("viewCount"));
+        thread.setUserId(rs.getInt("userId"));
+        return thread;
     }
 }

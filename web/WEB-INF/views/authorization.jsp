@@ -17,7 +17,6 @@
 </head>
 <body>
     <div class="container" style="margin-top: 200px;">
-        <div class="row"></div>
         <div class="row">
             <div class="col-md-5 col-md-offset-3">
                 <form class="form-horizontal" method="post" action="${pageContext.request.contextPath}/authorize.html">
@@ -36,7 +35,7 @@
                     </div>
 
                     <div class="form-group">
-                        <div class="col-md-offset-5 col-md-5">
+                        <div class="col-md-offset-5 col-md-6">
                             <button class="btn btn-primary btn-block" type="submit">Log In</button>
                             <div class="btn btn-primary btn-block" id="new-user">Create new user</div>
                         </div>

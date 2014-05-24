@@ -14,25 +14,12 @@
 </head>
 <body>
     <div class="container">
-        <ul class="nav nav-pills nav-justified">
-            <li><a href="#" id="create-thread">Create new thread</a></li>
-            <li class="active"><a href="#">Main page</a></li>
-            <c:if test="${not empty sessionScope.administrator}">
-                <li><a href="#">Administrator page</a></li>
-            </c:if>
-            <c:if test="${not empty sessionScope.moderator}">
-                <li><a href="#">Moderator page</a></li>
-            </c:if>
-            <li><a href="#" id="view-profile">Profile</a></li>
-            <li><a href="#" id="logout">Log out</a></li>
-        </ul>
-
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <c:forEach items="${threads}" var="thread">
                     <c:set var="user" value="${userByThread.get(thread)}"/>
 
-                    <div class="thread">
+                    <div class="topic">
                         <input type="hidden" class="thread-id" value="${thread.id}">
                         <div class="topic-header">
                             <c:choose>
@@ -47,14 +34,12 @@
                             <span class="thread-subject ${thread.active ? "alive-thread-subject" : "dead-thread-subject"}">${thread.subject}</span>
                             <span class="thread-tags">
                                 <c:forEach items="${tagsByThreadId.get(thread.id)}" var="tagId">
-                                    <%--<a href="#" class="tag">${tagById.get(tagId).name}</a>--%>
-                                    <%--<a href="#" class="tag">${tagById.get(tagId).name}</a>--%>
-                                    <span class="label label-info">${tagById.get(tagId).name}</span>
+                                    <span class="label label-default">${tagById.get(tagId).name}</span>
                                 </c:forEach>
                             </span>
                         </div>
 
-                        <span class="thread-info">
+                        <span class="topic-info">
                             Created ${thread.dateCreatedFormatted} by <strong>${user.login}</strong><br>
                             Last post ${thread.dateLastPostFormatted}<br>
                             Viewed ${thread.viewCount} times

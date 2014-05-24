@@ -9,6 +9,7 @@
         <div class="post" style="left: ${postShift}px; width: ${800 - postShift}px;">
             <input type="hidden" class="post-id" value="${post.id}">
             <input type="hidden" class="user-id" value="${post.userId}">
+
             <div class="post-header" style="clear: both">
                 <span class="post-author">${user.login}</span>
                 <span class="post-info">${post.dateCreatedFormatted}</span>

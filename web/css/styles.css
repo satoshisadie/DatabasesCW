@@ -1,11 +1,6 @@
-.centered {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.ui-dialog-titlebar {
-    display: none;
+.forums-separator {
+    margin-bottom: 5px;
+    margin-top: 5px;
 }
 
 #page-content {
@@ -18,8 +13,7 @@
     display: block;
 }
 
-.thread {
-    margin-left: 100px;
+.topic {
     position: relative;
     width: 600px;
 }
@@ -41,30 +35,33 @@
     background-color: aliceblue;
 }
 
-.thread-subject {
-    font-size: 30px;
+.topic-subject,
+.forum-subject {
+    font-size: 20px;
 }
 
-.thread-subject:hover {
+.topic-subject:hover,
+.forum-subject:hover {
     color: indianred;
     cursor: pointer;
 }
 
-.alive-thread-subject {
+.alive-topic-subject,
+.forum-subject {
     color: darkred;
 }
 
-.dead-thread-subject {
+.dead-topic-subject {
     color: black;
 }
 
 #post-form,
-#thread-form,
+#topic-form,
 #complain-form {
     display: none;
 }
 
-.thread-info,
+.topic-info,
 .post-info {
     font-size: 12px;
     color: #666666;

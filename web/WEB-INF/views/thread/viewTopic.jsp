@@ -10,22 +10,10 @@
     <script src="<c:url value="/js/lib/jquery-2.1.1.js"/>" type="application/javascript"></script>
     <script src="<c:url value="/js/lib/jquery-ui-1.10.4.js"/>" type="application/javascript"></script>
     <script src="<c:url value="/js/lib/bootstrap.js"/>" type="application/javascript"></script>
-    <script src="<c:url value="/js/thread.js"/>" type="application/javascript"></script>
+    <script src="<c:url value="/js/viewTopic.js"/>" type="application/javascript"></script>
 </head>
 <body>
     <div id="page-content">
-        <ul class="nav nav-pills nav-justified">
-            <li><a href="#">Main page</a></li>
-            <c:if test="${not empty sessionScope.administrator}">
-                <li><a href="#">Administrator page</a></li>
-            </c:if>
-            <c:if test="${not empty sessionScope.moderator}">
-                <li><a href="#">Moderator page</a></li>
-            </c:if>
-            <li><a href="#" id="view-profile">Profile</a></li>
-            <li><a href="#" id="logout">Log out</a></li>
-        </ul>
-
         <span class="thread-subject ${thread.active ? "alive-thread-subject" : "dead-thread-subject"}">${thread.subject}</span><br>
         <jsp:include page="childPost.jsp">
             <jsp:param name="postShift" value="0"/>

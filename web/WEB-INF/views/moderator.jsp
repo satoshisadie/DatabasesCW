@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-    <title>User profile</title>
+    <title>Moderator page</title>
     <link rel="stylesheet" href="<c:url value="/css/jquery-ui-1.10.4.custom.css"/>" type="text/css">
     <link rel="stylesheet" href="<c:url value="/css/bootstrap.css"/>" type="text/css">
     <link rel="stylesheet" href="<c:url value="/css/bootstrap-theme.css"/>" type="text/css">
@@ -13,7 +13,7 @@
 </head>
 <body>
     <div class="container">
-        <jsp:include page="../menu.jsp"/>
+        <jsp:include page="menu.jsp"/>
         To implement
     </div>
 </body>

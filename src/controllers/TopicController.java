@@ -22,15 +22,68 @@ import javax.servlet.http.HttpSession;
 import java.util.*;
 
 @Controller
-public class ThreadController {
+public class TopicController {
     @Autowired ThreadDao threadDao;
     @Autowired PostDao postDao;
     @Autowired UserDao userDao;
     @Autowired CommonDao commonDao;
     private Gson serializer = new Gson();
 
+//    @ResponseBody
+//    @RequestMapping("createThread.html")
+//    public String createThread(@RequestParam(value = "subject", required = true) String threadSubject,
+//                               @RequestParam(value = "initialPost", required = true) String initialPost,
+//                               @RequestParam(value = "tags", required = true) String tagsJson,
+//                               HttpServletRequest request) {
+//        int userId = (int) request.getSession().getAttribute("userId");
+//
+//        Thread thread = new Thread();
+//        thread.setSubject(threadSubject);
+//        thread.setUserId(userId);
+//        int threadId = threadDao.create(thread);
+//
+//        List<Integer> tagsIds = serializer.fromJson(tagsJson, new TypeToken<List<Integer>>(){}.getType());
+//        commonDao.attachTags(threadId, tagsIds);
+//
+//        Post post = new Post();
+//        post.setMessage(initialPost);
+//        post.setThreadId(threadId);
+//        post.setUserId(userId);
+//        postDao.create(post);
+//
+//        return "success";
+//    }
+//
+//    @RequestMapping("thread.html")
+//    public String openThread(@RequestParam(value = "id", required = true) int threadId,
+//                             HttpServletRequest request) {
+//        Thread thread = threadDao.get(threadId);
+//        request.setAttribute("thread", thread);
+//
+//        thread.setViewCount(thread.getViewCount() + 1);
+//        threadDao.update(thread);
+//
+//        List<Post> posts = postDao.getThreadPosts(threadId);
+//        posts.sort((post1, post2) -> post1.getDateCreated().compareTo(post2.getDateCreated()));
+//
+//        Set<Integer> usersIds = Sets.newTreeSet(Lists.transform(posts, Post::getUserId));
+//        List<User> users = userDao.getUsersByIds(usersIds);
+//        Map<Integer,User> userById = Maps.uniqueIndex(users, User::getId);
+//        request.setAttribute("userById", userById);
+//
+//        Multimap<String, Post> postsByParentId = ArrayListMultimap.create();
+//        for (Post post : posts) {
+//            postsByParentId.put(post.getRepliedTo().toString(), post);
+//        }
+//        request.setAttribute("posts", postsByParentId.asMap());
+//
+//        List<ForumRule> forumRules = commonDao.getAllRules();
+//        request.setAttribute("forumRules", forumRules);
+//
+//        return "thread/thread";
+//    }
     @ResponseBody
-    @RequestMapping("createThread.html")
+    @RequestMapping("createTopic.html")
     public String createThread(@RequestParam(value = "subject", required = true) String threadSubject,
                                @RequestParam(value = "initialPost", required = true) String initialPost,
                                @RequestParam(value = "tags", required = true) String tagsJson,
@@ -54,8 +107,8 @@ public class ThreadController {
         return "success";
     }
 
-    @RequestMapping("thread.html")
-    public String openThread(@RequestParam(value = "id", required = true) int threadId,
+    @RequestMapping("viewTopic.html")
+    public String viewTopic(@RequestParam(value = "id", required = true) int threadId,
                              HttpServletRequest request) {
         Thread thread = threadDao.get(threadId);
         request.setAttribute("thread", thread);
@@ -67,7 +120,7 @@ public class ThreadController {
         posts.sort((post1, post2) -> post1.getDateCreated().compareTo(post2.getDateCreated()));
 
         Set<Integer> usersIds = Sets.newTreeSet(Lists.transform(posts, Post::getUserId));
-        List<User> users = userDao.getAll(usersIds);
+        List<User> users = userDao.getUsersByIds(usersIds);
         Map<Integer,User> userById = Maps.uniqueIndex(users, User::getId);
         request.setAttribute("userById", userById);
 
@@ -80,12 +133,12 @@ public class ThreadController {
         List<ForumRule> forumRules = commonDao.getAllRules();
         request.setAttribute("forumRules", forumRules);
 
-        return "thread/thread";
+        return "thread/viewTopic";
     }
 
     @ResponseBody
-    @RequestMapping("followThread.html")
-    public  String followThread(@RequestParam(value = "threadId", required = true) int threadId,
+    @RequestMapping("followTopic.html")
+    public  String followThread(@RequestParam(value = "topicId", required = true) int threadId,
                                 HttpServletRequest request) {
         HttpSession session = request.getSession();
         int userId = (int) session.getAttribute("userId");
@@ -95,7 +148,7 @@ public class ThreadController {
 
     @ResponseBody
     @RequestMapping("cancelFollowing.html")
-    public  String cancelFollowing(@RequestParam(value = "threadId", required = true) int threadId,
+    public  String cancelFollowing(@RequestParam(value = "topicId", required = true) int threadId,
                                    HttpServletRequest request) {
         HttpSession session = request.getSession();
         int userId = (int) session.getAttribute("userId");

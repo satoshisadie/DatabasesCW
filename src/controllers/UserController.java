@@ -20,4 +20,9 @@ public class UserController {
     public String userRegistration() {
         return "user/newUser";
     }
+
+    @RequestMapping("viewProfile.html")
+    public String viewProfile() {
+        return "user/viewProfile";
+    }
 }

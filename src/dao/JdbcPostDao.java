@@ -54,19 +54,19 @@ public class JdbcPostDao implements PostDao {
         this.dataSource = dataSource;
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
+}
 
-    class PostRowMapper implements RowMapper<Post> {
-        @Override
-        public Post mapRow(ResultSet rs, int rowNum) throws SQLException {
-            Post post = new Post();
-            post.setId(rs.getInt("id"));
-            post.setMessage(rs.getString("message"));
-            post.setRating(rs.getInt("rating"));
-            post.setDateCreated(new DateTime(rs.getTimestamp("dateCreated")));
-            post.setThreadId(rs.getInt("threadId"));
-            post.setUserId(rs.getInt("userId"));
-            post.setRepliedTo(rs.getInt("repliedTo"));
-            return post;
-        }
+class PostRowMapper implements RowMapper<Post> {
+    @Override
+    public Post mapRow(ResultSet rs, int rowNum) throws SQLException {
+        Post post = new Post();
+        post.setId(rs.getInt("id"));
+        post.setMessage(rs.getString("message"));
+        post.setRating(rs.getInt("rating"));
+        post.setDateCreated(new DateTime(rs.getTimestamp("dateCreated")));
+        post.setThreadId(rs.getInt("threadId"));
+        post.setUserId(rs.getInt("userId"));
+        post.setRepliedTo(rs.getInt("repliedTo"));
+        return post;
     }
 }

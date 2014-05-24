@@ -81,46 +81,46 @@ public class JdbcCommonDao implements CommonDao {
         this.dataSource = dataSource;
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
+}
 
-    class TagRowMapper implements RowMapper<Tag> {
-        @Override
-        public Tag mapRow(ResultSet rs, int rowNum) throws SQLException {
-            Tag tag = new Tag();
-            tag.setId(rs.getInt("id"));
-            tag.setName(rs.getString("name"));
-            tag.setDescription(rs.getString("description"));
-            return tag;
-        }
+class TagRowMapper implements RowMapper<Tag> {
+    @Override
+    public Tag mapRow(ResultSet rs, int rowNum) throws SQLException {
+        Tag tag = new Tag();
+        tag.setId(rs.getInt("id"));
+        tag.setName(rs.getString("name"));
+        tag.setDescription(rs.getString("description"));
+        return tag;
     }
+}
 
-    class ThreadTagRowMapper implements RowMapper<ThreadTag> {
-        @Override
-        public ThreadTag mapRow(ResultSet rs, int rowNum) throws SQLException {
-            ThreadTag threadTag = new ThreadTag();
-            threadTag.setThreadId(rs.getInt("threadId"));
-            threadTag.setTagId(rs.getInt("tagId"));
-            return threadTag;
-        }
+class ThreadTagRowMapper implements RowMapper<ThreadTag> {
+    @Override
+    public ThreadTag mapRow(ResultSet rs, int rowNum) throws SQLException {
+        ThreadTag threadTag = new ThreadTag();
+        threadTag.setThreadId(rs.getInt("threadId"));
+        threadTag.setTagId(rs.getInt("tagId"));
+        return threadTag;
     }
+}
 
-    class ForumRuleRowMapper implements RowMapper<ForumRule> {
-        @Override
-        public ForumRule mapRow(ResultSet rs, int rowNum) throws SQLException {
-            ForumRule forumRule = new ForumRule();
-            forumRule.setId(rs.getInt("id"));
-            forumRule.setName(rs.getString("name"));
-            forumRule.setDescription(rs.getString("description"));
-            return forumRule;
-        }
+class ForumRuleRowMapper implements RowMapper<ForumRule> {
+    @Override
+    public ForumRule mapRow(ResultSet rs, int rowNum) throws SQLException {
+        ForumRule forumRule = new ForumRule();
+        forumRule.setId(rs.getInt("id"));
+        forumRule.setName(rs.getString("name"));
+        forumRule.setDescription(rs.getString("description"));
+        return forumRule;
     }
+}
 
-    class ThreadFollowerRowMapper implements RowMapper<ThreadFollower> {
-        @Override
-        public ThreadFollower mapRow(ResultSet rs, int rowNum) throws SQLException {
-            ThreadFollower threadFollower = new ThreadFollower();
-            threadFollower.setUserId(rs.getInt("userId"));
-            threadFollower.setThreadId(rs.getInt("threadId"));
-            return threadFollower;
-        }
+class ThreadFollowerRowMapper implements RowMapper<ThreadFollower> {
+    @Override
+    public ThreadFollower mapRow(ResultSet rs, int rowNum) throws SQLException {
+        ThreadFollower threadFollower = new ThreadFollower();
+        threadFollower.setUserId(rs.getInt("userId"));
+        threadFollower.setThreadId(rs.getInt("threadId"));
+        return threadFollower;
     }
 }

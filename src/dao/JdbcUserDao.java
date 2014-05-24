@@ -53,7 +53,7 @@ public class JdbcUserDao implements UserDao {
     }
 
     @Override
-    public List<User> getAll(Iterable<Integer> usersIds) {
+    public List<User> getUsersByIds(Iterable<Integer> usersIds) {
         String query = "SELECT u.*, r.Name as Role " +
                        "FROM [User] u " +
                        "JOIN Role r ON r.Id = u.RoleId " +
@@ -80,20 +80,20 @@ public class JdbcUserDao implements UserDao {
         this.dataSource = dataSource;
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
+}
 
-    class UserRowMapper implements RowMapper<User> {
-        @Override
-        public User mapRow(ResultSet rs, int rowNum) throws SQLException {
-            User user = new User();
-            user.setId(rs.getInt("id"));
-            user.setLogin(rs.getString("login"));
-            user.setPassword(rs.getString("password"));
-            user.setFirstName(rs.getString("firstName"));
-            user.setLastName(rs.getString("lastName"));
-            user.setEmail(rs.getString("email"));
-            user.setRole(rs.getString("role"));
-            user.setDateJoined(rs.getTimestamp("dateJoined"));
-            return user;
-        }
+class UserRowMapper implements RowMapper<User> {
+    @Override
+    public User mapRow(ResultSet rs, int rowNum) throws SQLException {
+        User user = new User();
+        user.setId(rs.getInt("id"));
+        user.setLogin(rs.getString("login"));
+        user.setPassword(rs.getString("password"));
+        user.setFirstName(rs.getString("firstName"));
+        user.setLastName(rs.getString("lastName"));
+        user.setEmail(rs.getString("email"));
+        user.setRole(rs.getString("role"));
+        user.setDateJoined(rs.getTimestamp("dateJoined"));
+        return user;
     }
 }

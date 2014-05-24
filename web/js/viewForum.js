@@ -1,11 +1,18 @@
 $(document).ready(function() {
-    $(".follow-thread").each(function() {
+    $(".forum-subject").each(function() {
+        $(this).click(function() {
+            var forumId = $(this).parents(".forum").children(".forum-id").val();
+            window.location = "./viewForum.html?id=" + forumId;
+        });
+    });
+
+    $(".follow-topic").each(function() {
         $(this).click(function() {
             $.ajax({
-                url: "followThread.html",
+                url: "followTopic.html",
                 type: "POST",
                 data: {
-                    threadId: $(this).parents(".thread").children(".thread-id").val()
+                    threadId: $(this).parents(".topic").children(".topic-id").val()
                 },
                 success: function() {
                     location.reload();
@@ -20,7 +27,7 @@ $(document).ready(function() {
                 url: "cancelFollowing.html",
                 type: "POST",
                 data: {
-                    threadId: $(this).parents(".thread").children(".thread-id").val()
+                    threadId: $(this).parents(".topic").children(".topic-id").val()
                 },
                 success: function() {
                     location.reload();
@@ -29,18 +36,18 @@ $(document).ready(function() {
         });
     });
 
-    $(".thread-subject").each(function() {
+    $(".topic-subject").each(function() {
         $(this).click(function() {
-            var threadId = $(this).parents(".thread").children(".thread-id").val();
-            window.location = "./thread.html?id=" + threadId;
+            var threadId = $(this).parents(".topic").children(".topic-id").val();
+            window.location = "./viewTopic.html?id=" + threadId;
         });
     });
 
-    $("#create-thread").click(function() {
-       $("#thread-form").dialog("open");
+    $("#create-topic").click(function() {
+        $("#topic-form").dialog("open");
     });
 
-    $("#thread-form").dialog({
+    $("#topic-form").dialog({
         autoOpen: false,
         height: "auto",
         width: 500,
@@ -53,7 +60,7 @@ $(document).ready(function() {
         buttons: {
             "Ok": function() {
                 $.ajax({
-                    url: "createThread.html",
+                    url: "createTopic.html",
                     type: "POST",
                     data: {
                         subject: $("#subject").val(),
