@@ -13,7 +13,7 @@
 <body>
     <div class="container" style="margin-top: 100px;">
         <div class="row">
-            <div class="col-md-3 col-md-offset-4">
+            <div class="col-md-4 col-md-offset-4">
                 <form class="form-horizontal" method="post" action="${pageContext.request.contextPath}/createUser.html">
                     <div class="form-group">
                         <input type="text" class="form-control" name="login" placeholder="Login">

@@ -1,6 +1,8 @@
-.forums-separator {
-    margin-bottom: 5px;
-    margin-top: 5px;
+.topics-separator {
+    margin-bottom: 2px;
+    margin-top: 2px;
+    border-color: darkgrey;
+    border-width: 3px;
 }
 
 .topic {
@@ -9,7 +11,7 @@
 }
 
 .post {
-    margin-top: 20px;
+    margin-top: 10px;
     position: relative;
     display: block;
 }
@@ -22,27 +24,19 @@
 
 .post-header {
     width: auto;
-    background-color: aliceblue;
+    background-color: #d3d3d3;
 }
 
 .topic-subject,
 .forum-subject {
     font-size: 20px;
+    color: darkred;
 }
 
 .topic-subject:hover,
 .forum-subject:hover {
     color: indianred;
     cursor: pointer;
-}
-
-.alive-topic-subject,
-.forum-subject {
-    color: darkred;
-}
-
-.dead-topic-subject {
-    color: black;
 }
 
 #post-form,
@@ -53,7 +47,7 @@
 
 .topic-info,
 .post-info {
-    font-size: 12px;
+    font-size: 10px;
     color: #666666;
 }
 

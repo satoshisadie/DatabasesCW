@@ -1,15 +1,15 @@
 package beans;
 
-public class ThreadTag {
-    Integer threadId;
+public class TopicTag {
+    Integer topicId;
     Integer tagId;
 
-    public Integer getThreadId() {
-        return threadId;
+    public Integer getTopicId() {
+        return topicId;
     }
 
-    public void setThreadId(Integer threadId) {
-        this.threadId = threadId;
+    public void setTopicId(Integer topicId) {
+        this.topicId = topicId;
     }
 
     public Integer getTagId() {

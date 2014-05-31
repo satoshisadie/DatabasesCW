@@ -69,4 +69,9 @@ $(document).ready(function() {
         });
         $("#topic-form").modal("hide");
     });
+
+    $(".tag").click(function() {
+        var tagId = $(this).attr("data-id");
+        window.location = "./search.html?tagId=" + tagId;
+    });
 });

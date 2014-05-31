@@ -15,20 +15,20 @@ public class JdbcPostDao implements PostDao {
     private JdbcTemplate jdbcTemplate;
 
     @Override
-    public List<Post> getThreadPosts(int threadId) {
+    public List<Post> getTopicPosts(int topicId) {
         String query = "SELECT * " +
                        "FROM Post p " +
-                       "WHERE p.ThreadId = ?";
+                       "WHERE p.TopicId = ?";
 
-        return jdbcTemplate.query(query, new PostRowMapper(), threadId);
+        return jdbcTemplate.query(query, new PostRowMapper(), topicId);
     }
 
     @Override
     public void create(Post post) {
-        String query = "INSERT INTO Post(Message, ThreadId, UserId, RepliedTo) " +
+        String query = "INSERT INTO Post(Message, TopicId, UserId, RepliedTo) " +
                        "VALUES (?, ?, ?, ?)";
 
-        jdbcTemplate.update(query, post.getMessage(), post.getThreadId(), post.getUserId(), post.getRepliedTo());
+        jdbcTemplate.update(query, post.getMessage(), post.getTopicId(), post.getUserId(), post.getRepliedTo());
     }
 
     @Override
@@ -64,7 +64,7 @@ class PostRowMapper implements RowMapper<Post> {
         post.setMessage(rs.getString("message"));
         post.setRating(rs.getInt("rating"));
         post.setDateCreated(new DateTime(rs.getTimestamp("dateCreated")));
-        post.setThreadId(rs.getInt("threadId"));
+        post.setTopicId(rs.getInt("topicId"));
         post.setUserId(rs.getInt("userId"));
         post.setRepliedTo(rs.getInt("repliedTo"));
         return post;

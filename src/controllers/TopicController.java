@@ -1,15 +1,13 @@
 package controllers;
 
-import beans.ForumRule;
-import beans.Post;
-import beans.Thread;
-import beans.User;
+import beans.*;
+import beans.Topic;
 import com.google.common.collect.*;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import dao.CommonDao;
 import dao.PostDao;
-import dao.ThreadDao;
+import dao.TopicDao;
 import dao.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,7 +21,8 @@ import java.util.*;
 
 @Controller
 public class TopicController {
-    @Autowired ThreadDao threadDao;
+    @Autowired
+    TopicDao topicDao;
     @Autowired PostDao postDao;
     @Autowired UserDao userDao;
     @Autowired CommonDao commonDao;
@@ -31,25 +30,25 @@ public class TopicController {
 
     @ResponseBody
     @RequestMapping("createTopic.html")
-    public String createThread(@RequestParam(value = "forumId", required = true) Integer forumId,
-                               @RequestParam(value = "subject", required = true) String threadSubject,
-                               @RequestParam(value = "initialPost", required = true) String initialPost,
-                               @RequestParam(value = "tags", required = true) String tagsJson,
-                               HttpServletRequest request) {
+    public String createTopic(@RequestParam(value = "forumId", required = true) Integer forumId,
+                              @RequestParam(value = "subject", required = true) String topicSubject,
+                              @RequestParam(value = "initialPost", required = true) String initialPost,
+                              @RequestParam(value = "tags", required = true) String tagsJson,
+                              HttpServletRequest request) {
         int userId = (int) request.getSession().getAttribute("userId");
 
-        Thread thread = new Thread();
-        thread.setSubject(threadSubject);
-        thread.setUserId(userId);
-        thread.setForumId(forumId);
-        int threadId = threadDao.create(thread);
+        Topic topic = new Topic();
+        topic.setSubject(topicSubject);
+        topic.setUserId(userId);
+        topic.setForumId(forumId);
+        int topicId = topicDao.create(topic);
 
         List<Integer> tagsIds = serializer.fromJson(tagsJson, new TypeToken<List<Integer>>(){}.getType());
-        commonDao.attachTags(threadId, tagsIds);
+        commonDao.attachTags(topicId, tagsIds);
 
         Post post = new Post();
         post.setMessage(initialPost);
-        post.setThreadId(threadId);
+        post.setTopicId(topicId);
         post.setUserId(userId);
         postDao.create(post);
 
@@ -57,15 +56,19 @@ public class TopicController {
     }
 
     @RequestMapping("viewTopic.html")
-    public String viewTopic(@RequestParam(value = "id", required = true) int threadId,
+    public String viewTopic(@RequestParam(value = "id", required = true) int topicId,
                              HttpServletRequest request) {
-        Thread thread = threadDao.get(threadId);
-        request.setAttribute("thread", thread);
+        Topic topic = topicDao.get(topicId);
+        request.setAttribute("topic", topic);
 
-        thread.setViewCount(thread.getViewCount() + 1);
-        threadDao.update(thread);
+        // Increment view count by 1
+        topic.setViewCount(topic.getViewCount() + 1);
+        topicDao.update(topic);
 
-        List<Post> posts = postDao.getThreadPosts(threadId);
+        List<Tag> tags = commonDao.getTagsByTopic(topicId);
+        request.setAttribute("tags", tags);
+
+        List<Post> posts = postDao.getTopicPosts(topicId);
         posts.sort((post1, post2) -> post1.getDateCreated().compareTo(post2.getDateCreated()));
 
         Set<Integer> usersIds = Sets.newTreeSet(Lists.transform(posts, Post::getUserId));
@@ -91,7 +94,7 @@ public class TopicController {
                                 HttpServletRequest request) {
         HttpSession session = request.getSession();
         int userId = (int) session.getAttribute("userId");
-        threadDao.follow(userId, threadId);
+        topicDao.follow(userId, threadId);
         return "success";
     }
 
@@ -101,7 +104,7 @@ public class TopicController {
                                    HttpServletRequest request) {
         HttpSession session = request.getSession();
         int userId = (int) session.getAttribute("userId");
-        threadDao.cancelFollowing(userId, threadId);
+        topicDao.cancelFollowing(userId, threadId);
         return "success";
     }
 }

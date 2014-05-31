@@ -3,7 +3,7 @@ package controllers;
 import beans.Post;
 import dao.CommonDao;
 import dao.PostDao;
-import dao.ThreadDao;
+import dao.TopicDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 public class PostController {
     @Autowired PostDao postDao;
-    @Autowired ThreadDao threadDao;
+    @Autowired
+    TopicDao topicDao;
     @Autowired CommonDao commonDao;
 
     @ResponseBody
@@ -27,7 +28,7 @@ public class PostController {
         int userId = (int) request.getSession().getAttribute("userId");
 
         Post post = new Post();
-        post.setThreadId(threadId);
+        post.setTopicId(threadId);
         post.setMessage(message);
         post.setRepliedTo(postId);
         post.setUserId(userId);

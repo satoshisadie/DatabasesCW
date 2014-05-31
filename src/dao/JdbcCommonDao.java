@@ -2,8 +2,8 @@ package dao;
 
 import beans.ForumRule;
 import beans.Tag;
-import beans.ThreadFollower;
-import beans.ThreadTag;
+import beans.TopicFollower;
+import beans.TopicTag;
 import com.google.common.base.Joiner;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -26,23 +26,34 @@ public class JdbcCommonDao implements CommonDao {
     }
 
     @Override
-    public List<ThreadTag> getThreadTagForThreads(List<Integer> threadsIds) {
+    public List<Tag> getTagsByTopic(int topicId) {
         String query = "SELECT * " +
-                       "FROM ThreadTag tt " +
-                       "WHERE tt.ThreadId IN (" + Joiner.on(",").join(threadsIds) + ")";
+                       "FROM Tag tg " +
+                       "JOIN TopicTag tt ON tt.TagId = tg.Id " +
+                       "JOIN Topic t ON t.Id = tt.TopicId " +
+                       "WHERE t.Id = ?";
 
-        return jdbcTemplate.query(query, new ThreadTagRowMapper());
+        return jdbcTemplate.query(query, new TagRowMapper(), topicId);
     }
 
     @Override
-    public void attachTags(int threadId, List<Integer> tagsIds) {
+    public List<TopicTag> getTopicTagForTopics(List<Integer> topicsIds) {
+        String query = "SELECT * " +
+                       "FROM TopicTag tt " +
+                       "WHERE tt.TopicId IN (" + Joiner.on(",").join(topicsIds) + ")";
+
+        return jdbcTemplate.query(query, new TopicTagRowMapper());
+    }
+
+    @Override
+    public void attachTags(int topicId, List<Integer> tagsIds) {
         StringBuilder query = new StringBuilder();
-        query.append("INSERT INTO ThreadTag(ThreadId, TagId) ")
+        query.append("INSERT INTO TopicTag(TopicId, TagId) ")
              .append("VALUES ");
 
         for (int i = 0; i < tagsIds.size(); i++) {
             if (i > 0) query.append(",");
-            query.append("(").append(threadId).append(",").append(tagsIds.get(i)).append(")");
+            query.append("(").append(topicId).append(",").append(tagsIds.get(i)).append(")");
         }
 
         jdbcTemplate.update(query.toString());
@@ -65,12 +76,12 @@ public class JdbcCommonDao implements CommonDao {
     }
 
     @Override
-    public List<ThreadFollower> getThreadFollowersByUserId(int userId) {
+    public List<TopicFollower> getTopicFollowersByUserId(int userId) {
         String query = "SELECT * " +
-                       "FROM ThreadFollower tf " +
+                       "FROM TopicFollower tf " +
                        "WHERE tf.UserId = ?";
 
-        return jdbcTemplate.query(query, new ThreadFollowerRowMapper(), userId);
+        return jdbcTemplate.query(query, new TopicFollowerRowMapper(), userId);
     }
 
     public DataSource getDataSource() {
@@ -94,13 +105,13 @@ class TagRowMapper implements RowMapper<Tag> {
     }
 }
 
-class ThreadTagRowMapper implements RowMapper<ThreadTag> {
+class TopicTagRowMapper implements RowMapper<TopicTag> {
     @Override
-    public ThreadTag mapRow(ResultSet rs, int rowNum) throws SQLException {
-        ThreadTag threadTag = new ThreadTag();
-        threadTag.setThreadId(rs.getInt("threadId"));
-        threadTag.setTagId(rs.getInt("tagId"));
-        return threadTag;
+    public TopicTag mapRow(ResultSet rs, int rowNum) throws SQLException {
+        TopicTag topicTag = new TopicTag();
+        topicTag.setTopicId(rs.getInt("topicId"));
+        topicTag.setTagId(rs.getInt("tagId"));
+        return topicTag;
     }
 }
 
@@ -115,12 +126,12 @@ class ForumRuleRowMapper implements RowMapper<ForumRule> {
     }
 }
 
-class ThreadFollowerRowMapper implements RowMapper<ThreadFollower> {
+class TopicFollowerRowMapper implements RowMapper<TopicFollower> {
     @Override
-    public ThreadFollower mapRow(ResultSet rs, int rowNum) throws SQLException {
-        ThreadFollower threadFollower = new ThreadFollower();
-        threadFollower.setUserId(rs.getInt("userId"));
-        threadFollower.setThreadId(rs.getInt("threadId"));
-        return threadFollower;
+    public TopicFollower mapRow(ResultSet rs, int rowNum) throws SQLException {
+        TopicFollower topicFollower = new TopicFollower();
+        topicFollower.setUserId(rs.getInt("userId"));
+        topicFollower.setTopicId(rs.getInt("topicId"));
+        return topicFollower;
     }
 }

@@ -2,11 +2,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-    <title>${thread.subject}</title>
+    <title>${topic.subject}</title>
     <link rel="stylesheet" href="<c:url value="/css/jquery-ui-1.10.4.custom.css"/>" type="text/css">
     <link rel="stylesheet" href="<c:url value="/css/styles.css"/>" type="text/css">
     <link rel="stylesheet" href="<c:url value="/css/bootstrap.css"/>" type="text/css">
     <link rel="stylesheet" href="<c:url value="/css/bootstrap-theme.css"/>" type="text/css">
+    <link rel="stylesheet" href="<c:url value="/css/font-awesome.css"/>" type="text/css">
     <script src="<c:url value="/js/lib/jquery-2.1.1.js"/>" type="application/javascript"></script>
     <script src="<c:url value="/js/lib/jquery-ui-1.10.4.js"/>" type="application/javascript"></script>
     <script src="<c:url value="/js/lib/bootstrap.js"/>" type="application/javascript"></script>
@@ -19,19 +20,25 @@
 
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
-                <span class="topic-subject ${thread.active ? "alive-topic-subject" : "dead-topic-subject"}">${thread.subject}</span><br>
+                <span class="topic-subject">${topic.subject}</span>
+                <span class="topic-tags">
+                    <c:forEach items="${tags}" var="tag">
+                        <span class="label label-default tag" data-id="${tag.id}">${tag.name}</span>
+                    </c:forEach>
+                </span><br>
+
                 <jsp:include page="childPost.jsp">
                     <jsp:param name="postShift" value="0"/>
                     <jsp:param name="postId" value="0"/>
                 </jsp:include>
 
-                <c:if test="${thread.active}">
+                <c:if test="${topic.active}">
                     <button class="btn btn-primary" id="write-post" style="margin-top: 20px;">Write new post</button>
                 </c:if>
             </div>
         </div>
 
-        <input type="hidden" id="topic-status" value="${thread.active}">
+        <input type="hidden" id="topic-status" value="${topic.active}">
         <input type="hidden" id="post-id">
 
         <div class="modal fade" id="complain-form">
@@ -78,7 +85,7 @@
 
                     <div class="modal-body">
                         <form class="form-horizontal">
-                            <input type="hidden" id="thread-id" value="${thread.id}">
+                            <input type="hidden" id="topic-id" value="${topic.id}">
                             <label for="message" class="control-label">Message</label>
                             <textarea id="message" class="form-control" rows="3"></textarea>
                         </form>

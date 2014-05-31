@@ -26,13 +26,12 @@
                     <div class="forum-header">
                         <span class="forum-subject">${forum.name}</span>
                         <span class="forum-tags">
-                            <%--<c:forEach items="${tagsByThreadId.get(thread.id)}" var="tagId">--%>
+                            <%--<c:forEach items="${tagsByThreadId.get(topic.id)}" var="tagId">--%>
                                 <%--<span class="label label-default">${tagById.get(tagId).name}</span>--%>
                             <%--</c:forEach>--%>
                         </span>
                     </div>
                 </div>
-                <hr class="forums-separator">
             </c:forEach>
         </div>
     </div>

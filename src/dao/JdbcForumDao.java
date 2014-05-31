@@ -1,7 +1,7 @@
 package dao;
 
 import beans.Forum;
-import beans.Thread;
+import beans.Topic;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
@@ -26,12 +26,22 @@ public class JdbcForumDao implements ForumDao {
     }
 
     @Override
-    public List<Thread> getThreads(int forumId) {
+    public List<Forum> getForumsByTag(int tagId) {
         String query = "SELECT * " +
-                       "FROM Thread t " +
+                       "FROM Forum f " +
+                       "JOIN ForumTag ft ON ft.ForumId = f.Id " +
+                       "WHERE ft.TagId = ?";
+
+        return jdbcTemplate.query(query, new ForumRowMapper(), tagId);
+    }
+
+    @Override
+    public List<Topic> getTopics(int forumId) {
+        String query = "SELECT * " +
+                       "FROM Topic t " +
                        "WHERE t.ForumId = ?";
 
-        return jdbcTemplate.query(query, new ThreadRowMapper(), forumId);
+        return jdbcTemplate.query(query, new TopicRowMapper(), forumId);
     }
 
     @Override

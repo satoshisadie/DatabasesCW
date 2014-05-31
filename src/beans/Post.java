@@ -9,7 +9,7 @@ public class Post {
     private Integer rating;
     private DateTime dateCreated;
     private Integer userId;
-    private Integer threadId;
+    private Integer topicId;
     private Integer repliedTo;
 
     public String getDateCreatedFormatted() {
@@ -56,12 +56,12 @@ public class Post {
         this.userId = userId;
     }
 
-    public Integer getThreadId() {
-        return threadId;
+    public Integer getTopicId() {
+        return topicId;
     }
 
-    public void setThreadId(Integer threadId) {
-        this.threadId = threadId;
+    public void setTopicId(Integer topicId) {
+        this.topicId = topicId;
     }
 
     public Integer getRepliedTo() {

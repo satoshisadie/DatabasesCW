@@ -3,7 +3,7 @@ package beans;
 import helpers.DateUtils;
 import org.joda.time.DateTime;
 
-public class Thread {
+public class Topic {
     private Integer id;
     private String subject;
     private Integer viewCount;

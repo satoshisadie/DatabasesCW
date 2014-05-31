@@ -1,13 +1,15 @@
 package controllers;
 
 import beans.*;
+import beans.Topic;
 import dao.CommonDao;
 import dao.ForumDao;
-import dao.ThreadDao;
+import dao.TopicDao;
 import dao.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,7 +20,8 @@ import java.util.List;
 
 @Controller
 public class MainController {
-    @Autowired ThreadDao threadDao;
+    @Autowired
+    TopicDao topicDao;
     @Autowired UserDao userDao;
     @Autowired CommonDao commonDao;
     @Autowired ForumDao forumDao;
@@ -74,6 +77,20 @@ public class MainController {
 
         httpServletResponse.setStatus(HttpServletResponse.SC_FOUND);
         httpServletResponse.sendRedirect("forums.html");
+    }
+
+    @RequestMapping("search.html")
+    public String tagSearch(@RequestParam(value = "tagId", required = false) Integer tagId,
+                            HttpServletRequest request) {
+        if (tagId != null) {
+            List<Forum> forums = forumDao.getForumsByTag(tagId);
+            request.setAttribute("forums", forums);
+
+            List<Topic> topics = topicDao.getTopicsByTag(tagId);
+            request.setAttribute("topics", topics);
+        }
+
+        return "search";
     }
 
     @ResponseBody

@@ -5,4 +5,9 @@ $(document).ready(function() {
             window.location = "./viewForum.html?id=" + forumId;
         });
     });
+
+    $(".tag").click(function() {
+        var tagId = $(this).attr("data-id");
+        window.location = "./search.html?tagId=" + tagId;
+    });
 });

@@ -1,8 +1,8 @@
 package beans;
 
-public class ThreadFollower {
+public class TopicFollower {
     Integer userId;
-    Integer threadId;
+    Integer topicId;
 
     public Integer getUserId() {
         return userId;
@@ -12,11 +12,11 @@ public class ThreadFollower {
         this.userId = userId;
     }
 
-    public Integer getThreadId() {
-        return threadId;
+    public Integer getTopicId() {
+        return topicId;
     }
 
-    public void setThreadId(Integer threadId) {
-        this.threadId = threadId;
+    public void setTopicId(Integer topicId) {
+        this.topicId = topicId;
     }
 }

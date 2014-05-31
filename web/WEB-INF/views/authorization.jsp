@@ -18,27 +18,19 @@
 <body>
     <div class="container" style="margin-top: 200px;">
         <div class="row">
-            <div class="col-md-5 col-md-offset-3">
+            <div class="col-md-2 col-md-offset-5">
                 <form class="form-horizontal" method="post" action="${pageContext.request.contextPath}/authorize.html">
                     <div class="form-group">
-                        <label class="control-label col-md-5" for="login">Login</label>
-                        <div class="col-md-6">
-                            <input type="text" id="login" class="form-control" name="login" placeholder="Login">
-                        </div>
+                        <input type="text" id="login" class="form-control" name="login" placeholder="Login">
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label col-md-5" for="password">Password</label>
-                        <div class="col-md-6">
-                            <input type="password" id="password" class="form-control" name="password" placeholder="Password">
-                        </div>
+                        <input type="password" id="password" class="form-control" name="password" placeholder="Password">
                     </div>
 
                     <div class="form-group">
-                        <div class="col-md-offset-5 col-md-6">
-                            <button class="btn btn-primary btn-block" type="submit">Log In</button>
-                            <div class="btn btn-primary btn-block" id="new-user">Create new user</div>
-                        </div>
+                        <button class="btn btn-primary btn-block" type="submit">Log In</button>
+                        <div class="btn btn-primary btn-block" id="new-user">Create new user</div>
                     </div>
                 </form>
             </div>

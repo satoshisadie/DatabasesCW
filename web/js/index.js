@@ -53,7 +53,7 @@ $(document).ready(function() {
         buttons: {
             "Ok": function() {
                 $.ajax({
-                    url: "createThread.html",
+                    url: "createTopic.html",
                     type: "POST",
                     data: {
                         subject: $("#subject").val(),

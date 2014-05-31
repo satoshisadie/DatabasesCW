@@ -1,7 +1,7 @@
 package controllers;
 
 import beans.*;
-import beans.Thread;
+import beans.Topic;
 import com.google.common.collect.*;
 import dao.CommonDao;
 import dao.ForumDao;
@@ -28,24 +28,24 @@ public class ForumController {
                             HttpServletRequest request) {
         request.setAttribute("forumId", forumId);
 
-        List<Thread> threads = forumDao.getThreads(forumId);
-        // Sort threads from last date to earliest date
-        threads.sort((thread1, thread2) -> -thread1.getDateLastPost().compareTo(thread2.getDateLastPost()));
-        request.setAttribute("threads", threads);
+        List<Topic> topics = forumDao.getTopics(forumId);
+        // Sort topics from last date to earliest date
+        topics.sort((topic1, topic2) -> -topic1.getDateLastPost().compareTo(topic2.getDateLastPost()));
+        request.setAttribute("topics", topics);
 
-        // If threads not empty get users and tags for this threads
-        if (threads.size() > 0) {
-            Set<Integer> usersIds = Sets.newTreeSet(Lists.transform(threads, Thread::getUserId));
+        // If topics not empty get users and tags for this topics
+        if (topics.size() > 0) {
+            Set<Integer> usersIds = Sets.newTreeSet(Lists.transform(topics, Topic::getUserId));
             List<User> users = userDao.getUsersByIds(usersIds);
-            Map<Thread, User> userByThread = Maps.toMap(threads, thread -> Iterables.find(users, user -> user.getId().equals(thread.getUserId())));
-            request.setAttribute("userByThread", userByThread);
+            Map<Topic, User> userByTopic = Maps.toMap(topics, topic -> Iterables.find(users, user -> user.getId().equals(topic.getUserId())));
+            request.setAttribute("userByTopic", userByTopic);
 
-            List<ThreadTag> threadTags = commonDao.getThreadTagForThreads(Lists.transform(threads, Thread::getId));
-            Multimap<Integer, Integer> tagsByThreadId = ArrayListMultimap.create();
-            for (ThreadTag threadTag : threadTags) {
-                tagsByThreadId.put(threadTag.getThreadId(), threadTag.getTagId());
+            List<TopicTag> topicTags = commonDao.getTopicTagForTopics(Lists.transform(topics, Topic::getId));
+            Multimap<Integer, Integer> tagsByTopicId = ArrayListMultimap.create();
+            for (TopicTag topicTag : topicTags) {
+                tagsByTopicId.put(topicTag.getTopicId(), topicTag.getTagId());
             }
-            request.setAttribute("tagsByThreadId", tagsByThreadId.asMap());
+            request.setAttribute("tagsByTopicId", tagsByTopicId.asMap());
         }
 
         List<Forum> subforums = forumDao.getSubforums(forumId);
@@ -60,9 +60,9 @@ public class ForumController {
         HttpSession session = request.getSession();
         int userId = (int) session.getAttribute("userId");
 
-        List<ThreadFollower> threadFollowers = commonDao.getThreadFollowersByUserId(userId);
-        Set<Integer> followedThreads = Sets.newHashSet(Lists.transform(threadFollowers, ThreadFollower::getThreadId));
-        request.setAttribute("followedThreads", followedThreads);
+        List<TopicFollower> topicFollowers = commonDao.getTopicFollowersByUserId(userId);
+        Set<Integer> followedTopics = Sets.newHashSet(Lists.transform(topicFollowers, TopicFollower::getTopicId));
+        request.setAttribute("followedTopics", followedTopics);
 
         return "viewForum";
     }
